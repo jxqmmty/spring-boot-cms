@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bilibili.mapper.UserMapper">	
+	<select id="loadAll" resultType="User">
+		select * from t_user
+		<where>
+			<if test="username != null and !''.equals(username.trim())">
+	  		and username like concat('%',#{username},'%')
+	  	</if>
+		</where>
+		 limit #{start},#{pageSize}
+	</select>
+	
+	<select id="loadById" resultType="User">
+		select * from t_user where id = #{id}
+	</select>
+	
+	<delete id="remove">
+		delete from t_user where id = #{id}
+	</delete>
+	
+		<insert id="add">
+		insert into t_user(username,password,nickname) values(#{username},#{password},#{nickname})
+	</insert>
+	
+	<update id="update">
+		update t_user set 
+		   username=#{username},
+		   password=#{password},
+		   nickname=#{nickname}
+			where id = #{id}
+	</update>
+	
+	<select id="queryCount" resultType="int">
+		select count(id) from t_user
+		<where>
+			<if test="username != null and !''.equals(username.trim())">
+	  		and username like concat('%',#{username},'%')
+	  	</if>
+		</where>
+	</select>
+	
+	<select id="loadByUsername" resultType="User">
+		select * from t_user where username = #{username}
+	</select>
+</mapper>

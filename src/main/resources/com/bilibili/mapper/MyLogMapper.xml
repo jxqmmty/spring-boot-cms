@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bilibili.mapper.MyLogMapper">
+    <insert id="insert">
+        insert into admin_log(id,userId,username,loginip,type,url,operation,createtime,remark)
+            values
+            (#{id},#{userId},#{userName},#{loginip},#{type},#{url},#{operation},now(),#{remark})
+    </insert>
+
+    <select id="loadAll" resultType="adminLog">
+        select * from admin_log
+        <where>
+            <if test="userName != null and !''.equals(userName.trim())">
+                and userName like concat('%',#{userName},'%')
+            </if>
+        </where>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="queryCount" resultType="int">
+        select count(id) from admin_log
+        <where>
+            <if test="userName != null and !''.equals(userName.trim())">
+                and userName like concat('%',#{userName},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

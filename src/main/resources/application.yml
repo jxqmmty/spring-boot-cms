@@ -1,0 +1,15 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    username: root
+    password: root1
+    # SpringBoot默认使用的是Mysql8，所以需要指定时区
+    url: jdbc:mysql:///cms?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  # 指定别名包
+  type-aliases-package: com.bilibili.domain
+  # 指定mapper.xml位置
+  mapper-locations: classpath:com/bilibili/mapper/*Mapper.xml

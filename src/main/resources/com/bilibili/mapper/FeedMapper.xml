@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bilibili.mapper.FeedMapper">	
+	<select id="loadAll" resultType="Feed">
+		select * from t_feedbacks
+		<where>
+			<if test="name != null and !''.equals(name.trim())">
+	  		and name like concat('%',#{name},'%')
+	  	</if>
+	  	<if test="enable != null">
+	  		and enable = #{enable}
+	  	</if>
+		</where>
+		 limit #{start},#{pageSize}
+	</select>
+	
+	<select id="loadById" resultType="Feed">
+		select * from t_feedbacks where id = #{id}
+	</select>
+	
+	<delete id="remove">
+		delete from t_feedbacks where id = #{id}
+	</delete>
+	
+		<insert id="add">
+		insert into t_feedbacks(name,path,createDate,enable) values(#{name},#{path},#{createDate},#{enable})
+	</insert>
+	
+	<update id="update">
+		update t_feedbacks set 
+		   name=#{name},
+		   path=#{path},
+		   createDate=#{createDate},
+		   enable=#{enable}
+			where id = #{id}
+	</update>
+	
+	<select id="queryCount" resultType="int">
+		select count(id) from t_feedbacks
+		<where>
+			<if test="name != null and !''.equals(name.trim())">
+	  		and name like concat('%',#{name},'%')
+	  	</if>
+	  	<if test="enable != null">
+	  		and enable = #{enable}
+	  	</if>
+		</where>
+	</select>
+
+</mapper>
